@@ -13,16 +13,18 @@ import java.util.stream.Collectors;
 public class DistrictService {
     private IDistrictRepository districtRepository;
 
-    public District createDistrict(String districtName, City city){
-        District district = new District();
-        district.setName(districtName);
-        district.setCity(city);
-        districtRepository.save(district);
-        return district;
-    }
-
     public DistrictService(IDistrictRepository districtRepository) {
         this.districtRepository = districtRepository;
+    }
+
+
+    public District createDistrict(String districtName, City city){
+        District district = District.builder()
+                .name(districtName)
+                .city(city)
+                .build();
+        districtRepository.save(district);
+        return district;
     }
 
     public List<CityResponse> getAll() {
