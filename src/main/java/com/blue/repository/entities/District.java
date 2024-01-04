@@ -22,7 +22,6 @@ public class District {
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="city_id", nullable=false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private City city;
 }
