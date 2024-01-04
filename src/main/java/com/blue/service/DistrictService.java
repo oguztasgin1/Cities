@@ -7,6 +7,7 @@ import com.blue.repository.entities.District;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,13 +19,17 @@ public class DistrictService {
     }
 
 
-    public District createDistrict(String districtName, City city){
-        District district = District.builder()
-                .name(districtName)
-                .city(city)
-                .build();
-        districtRepository.save(district);
-        return district;
+    public Boolean createDistrict(String districtName, City city){
+        Optional<District> districtOptional = districtRepository.findByNameAndCityId(districtName, city.getId());
+        if (districtOptional.isEmpty()){
+            District district = District.builder()
+                    .name(districtName)
+                    .city(city)
+                    .build();
+            districtRepository.save(district);
+            return true;
+        }
+        return false;
     }
 
     public List<CityResponse> getAll() {

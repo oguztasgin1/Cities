@@ -23,11 +23,9 @@ public class CityService {
         Optional<City> optionalCity= findByCityName(createCityRequest.getCityName());
         if (optionalCity.isEmpty()){
             City city = createCity(createCityRequest.getCityName());
-            districtService.createDistrict(createCityRequest.getDistrictName(), city);
-            return true;
+            return districtService.createDistrict(createCityRequest.getDistrictName(), city);
         }
-        districtService.createDistrict(createCityRequest.getDistrictName(), optionalCity.get());
-        return true;
+        return districtService.createDistrict(createCityRequest.getDistrictName(), optionalCity.get());
     }
     public City createCity(String cityName){
         City city = City.builder()
