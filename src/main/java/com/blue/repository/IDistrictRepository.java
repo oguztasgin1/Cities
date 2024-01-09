@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface IDistrictRepository extends JpaRepository<District, Long> {
     Optional<District> findByNameAndCityId(String districtName, Long id);
+    Long countDistinctByCityId(Long cityId);
 }

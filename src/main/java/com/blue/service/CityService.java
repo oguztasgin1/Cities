@@ -19,13 +19,24 @@ public class CityService {
         this.districtService = districtService;
     }
 
+    public String makeCapital (String name) {
+        String a = name.toUpperCase();
+        return a;
+    }
+
     public Boolean createCityAndDistrict(CreateCityRequest createCityRequest) {
-        Optional<City> optionalCity= findByCityName(createCityRequest.getCityName());
+        String makeCapital = makeCapital(createCityRequest.getCityName());
+        Optional<City> optionalCity= findByCityName(makeCapital);
         if (optionalCity.isEmpty()){
-            City city = createCity(createCityRequest.getCityName());
-            return districtService.createDistrict(createCityRequest.getDistrictName(), city);
+            City city = createCity(makeCapital);
+            return districtService.createDistrict(createCityRequest.getDistrictName(), createCityRequest.getDistrictPopulation(), city);
+        }else{
+            Long cityCount = districtService.countDistinctByCityId(optionalCity.get().getId());
+            if (cityCount >=3){
+                return false;
+            }
         }
-        return districtService.createDistrict(createCityRequest.getDistrictName(), optionalCity.get());
+        return districtService.createDistrict(createCityRequest.getDistrictName(), createCityRequest.getDistrictPopulation(), optionalCity.get());
     }
     public City createCity(String cityName){
         City city = City.builder()

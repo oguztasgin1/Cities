@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class CreateCityRequest {
     String cityName;
     String districtName;
+    Long districtPopulation;
 }

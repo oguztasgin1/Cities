@@ -18,6 +18,7 @@ public class District {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     private String name;
+    private Long population;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="city_id", nullable=false)
     @JsonIgnore

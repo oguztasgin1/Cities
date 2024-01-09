@@ -19,11 +19,12 @@ public class DistrictService {
     }
 
 
-    public Boolean createDistrict(String districtName, City city){
+    public Boolean createDistrict(String districtName, Long population, City city){
         Optional<District> districtOptional = districtRepository.findByNameAndCityId(districtName, city.getId());
         if (districtOptional.isEmpty()){
             District district = District.builder()
                     .name(districtName)
+                    .population(population)
                     .city(city)
                     .build();
             districtRepository.save(district);
@@ -36,6 +37,12 @@ public class DistrictService {
          return districtRepository.findAll().stream().map(x -> CityResponse.builder()
                  .cityName(x.getCity().getName())
                  .districtName(x.getName())
+                 .districtPopulation(x.getPopulation())
                  .build()).collect(Collectors.toList());
+    }
+
+    public Long countDistinctByCityId(Long id) {
+        Long count = districtRepository.countDistinctByCityId(id);
+        return count;
     }
 }
